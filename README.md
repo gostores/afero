@@ -1,6 +1,6 @@
 A FileSystem Abstraction System for Go
 
-## Afero Features
+## Fsintra Features
 
 * A single consistent API for accessing a variety of filesystems
 * Interoperation between a variety of file system types
@@ -8,40 +8,40 @@ A FileSystem Abstraction System for Go
 * An atomic cross platform memory backed file system
 * Support for compositional (union) file systems by combining multiple file systems acting as one
 * Specialized backends which modify existing filesystems (Read Only, Regexp filtered)
-* A set of utility functions ported from io, ioutil & hugo to be afero aware
+* A set of utility functions ported from io, ioutil & hugo to be fsintra aware
 
 
-# Using Afero
+# Using fsintra
 
-Afero is easy to use and easier to adopt.
+fsintra is easy to use and easier to adopt.
 
-A few different ways you could use Afero:
+A few different ways you could use fsintra:
 
 * Use the interfaces alone to define you own file system.
 * Wrap for the OS packages.
 * Define different filesystems for different parts of your application.
-* Use Afero for mock filesystems while testing
+* Use fsintra for mock filesystems while testing
 
-## Step 1: Install Afero
+## Step 1: Install fsintra
 
 First use go get to install the latest version of the library.
 
-    $ go get github.com/spf13/afero
+    $ go get github.com/gostores/fsintra
 
-Next include Afero in your application.
+Next include fsintra in your application.
 ```go
-import "github.com/spf13/afero"
+import "github.com/gostores/fsintra"
 ```
 
 ## Step 2: Declare a backend
 
 First define a package variable and set it to a pointer to a filesystem.
 ```go
-var AppFs = afero.NewMemMapFs()
+var AppFs = fsintra.NewMemMapFs()
 
 or
 
-var AppFs = afero.NewOsFs()
+var AppFs = fsintra.NewOsFs()
 ```
 It is important to note that if you repeat the composite literal you
 will be using a completely new and isolated filesystem. In the case of
@@ -102,12 +102,12 @@ WriteString(s string) : ret int, err error
 In some applications it may make sense to define a new package that
 simply exports the file system variable for easy access from anywhere.
 
-## Using Afero's utility functions
+## Using fsintra's utility functions
 
-Afero provides a set of functions to make it easier to use the underlying file systems.
+fsintra provides a set of functions to make it easier to use the underlying file systems.
 These functions have been primarily ported from io & ioutil with some developed for Hugo.
 
-The afero utilities support all afero compatible backends.
+The fsintra utilities support all fsintra compatible backends.
 
 The list of utilities includes:
 
@@ -127,30 +127,28 @@ Walk(root string, walkFn filepath.WalkFunc) error
 WriteFile(filename string, data []byte, perm os.FileMode) error
 WriteReader(path string, r io.Reader) (err error)
 ```
-For a complete list see [Afero's GoDoc](https://godoc.org/github.com/spf13/afero)
-
 They are available under two different approaches to use. You can either call
 them directly where the first parameter of each function will be the file
-system, or you can declare a new `Afero`, a custom type used to bind these
+system, or you can declare a new `Fsintra`, a custom type used to bind these
 functions as methods to a given filesystem.
 
 ### Calling utilities directly
 
 ```go
-fs := new(afero.MemMapFs)
-f, err := afero.TempFile(fs,"", "ioutil-test")
+fs := new(fsintra.MemMapFs)
+f, err := fsintra.TempFile(fs,"", "ioutil-test")
 
 ```
 
-### Calling via Afero
+### Calling via fsintra
 
 ```go
-fs := afero.NewMemMapFs()
-afs := &afero.Afero{Fs: fs}
+fs := fsintra.NewMemMapFs()
+afs := &fsintra.Fsintra{Fs: fs}
 f, err := afs.TempFile("", "ioutil-test")
 ```
 
-## Using Afero for Testing
+## Using fsintra for Testing
 
 There is a large benefit to using a mock filesystem for testing. It has a
 completely blank state every time it is initialized and can be easily
@@ -166,22 +164,22 @@ backend is perfect for testing.
 * No test cleanup needed
 
 One way to accomplish this is to define a variable as mentioned above.
-In your application this will be set to afero.NewOsFs() during testing you
-can set it to afero.NewMemMapFs().
+In your application this will be set to fsintra.NewOsFs() during testing you
+can set it to fsintra.NewMemMapFs().
 
 It wouldn't be uncommon to have each test initialize a blank slate memory
-backend. To do this I would define my `appFS = afero.NewOsFs()` somewhere
+backend. To do this I would define my `appFS = fsintra.NewOsFs()` somewhere
 appropriate in my application code. This approach ensures that Tests are order
 independent, with no test relying on the state left by an earlier test.
 
 Then in my tests I would initialize a new MemMapFs for each test:
 ```go
 func TestExist(t *testing.T) {
-	appFS := afero.NewMemMapFs()
+	appFS := fsintra.NewMemMapFs()
 	// create test files and directories
 	appFS.MkdirAll("src/a", 0755)
-	afero.WriteFile(appFS, "src/a/b", []byte("file b"), 0644)
-	afero.WriteFile(appFS, "src/c", []byte("file c"), 0644)
+	fsintra.WriteFile(appFS, "src/a/b", []byte("file b"), 0644)
+	fsintra.WriteFile(appFS, "src/c", []byte("file c"), 0644)
 	name := "src/c"
 	_, err := appFS.Stat(name)
 	if os.IsNotExist(err) {
@@ -202,7 +200,7 @@ calls. It also makes it trivial to have your code use the OS during
 operation and a mock filesystem during testing or as needed.
 
 ```go
-appfs := afero.NewOsFs()
+appfs := fsintra.NewOsFs()
 appfs.MkdirAll("src/a", 0755))
 ```
 
@@ -210,19 +208,19 @@ appfs.MkdirAll("src/a", 0755))
 
 ### MemMapFs
 
-Afero also provides a fully atomic memory backed filesystem perfect for use in
+fsintra also provides a fully atomic memory backed filesystem perfect for use in
 mocking and to speed up unnecessary disk io when persistence isn’t
 necessary. It is fully concurrent and will work within go routines
 safely.
 
 ```go
-mm := afero.NewMemMapFs()
+mm := fsintra.NewMemMapFs()
 mm.MkdirAll("src/a", 0755))
 ```
 
 #### InMemoryFile
 
-As part of MemMapFs, Afero also provides an atomic, fully concurrent memory
+As part of MemMapFs, fsintra also provides an atomic, fully concurrent memory
 backed file implementation. This can be used in other memory backed file
 systems with ease. Plans are to add a radix tree memory stored file
 system using InMemoryFile.
@@ -231,7 +229,7 @@ system using InMemoryFile.
 
 ### SftpFs
 
-Afero has experimental support for secure file transfer protocol (sftp). Which can
+fsintra has experimental support for secure file transfer protocol (sftp). Which can
 be used to perform file operations over a encrypted channel.
 
 ## Filtering Backends
@@ -243,7 +241,7 @@ The given file name to the operations on this Fs will be prepended with
 the base path before calling the source Fs.
 
 ```go
-bp := afero.NewBasePathFs(afero.NewOsFs(), "/base/path")
+bp := fsintra.NewBasePathFs(fsintra.NewOsFs(), "/base/path")
 ```
 
 ### ReadOnlyFs
@@ -251,7 +249,7 @@ bp := afero.NewBasePathFs(afero.NewOsFs(), "/base/path")
 A thin wrapper around the source Fs providing a read only view.
 
 ```go
-fs := afero.NewReadOnlyFs(afero.NewOsFs())
+fs := fsintra.NewReadOnlyFs(fsintra.NewOsFs())
 _, err := fs.Create("/file.txt")
 // err = syscall.EPERM
 ```
@@ -264,31 +262,31 @@ Files not matching the regexp provided will not be created.
 Directories are not filtered.
 
 ```go
-fs := afero.NewRegexpFs(afero.NewMemMapFs(), regexp.MustCompile(`\.txt$`))
+fs := fsintra.NewRegexpFs(fsintra.NewMemMapFs(), regexp.MustCompile(`\.txt$`))
 _, err := fs.Create("/file.html")
 // err = syscall.ENOENT
 ```
 
 ### HttpFs
 
-Afero provides an http compatible backend which can wrap any of the existing
+fsintra provides an http compatible backend which can wrap any of the existing
 backends.
 
 The Http package requires a slightly specific version of Open which
 returns an http.File type.
 
-Afero provides an httpFs file system which satisfies this requirement.
-Any Afero FileSystem can be used as an httpFs.
+fsintra provides an httpFs file system which satisfies this requirement.
+Any fsintra FileSystem can be used as an httpFs.
 
 ```go
-httpFs := afero.NewHttpFs(<ExistingFS>)
+httpFs := fsintra.NewHttpFs(<ExistingFS>)
 fileserver := http.FileServer(httpFs.Dir(<PATH>)))
 http.Handle("/", fileserver)
 ```
 
 ## Composite Backends
 
-Afero provides the ability have two filesystems (or more) act as a single
+fsintra provides the ability have two filesystems (or more) act as a single
 file system.
 
 ### CacheOnReadFs
@@ -313,9 +311,9 @@ from the base to the overlay when they're not present (or outdated) in the
 caching layer.
 
 ```go
-base := afero.NewOsFs()
-layer := afero.NewMemMapFs()
-ufs := afero.NewCacheOnReadFs(base, layer, 100 * time.Second)
+base := fsintra.NewOsFs()
+layer := fsintra.NewMemMapFs()
+ufs := fsintra.NewCacheOnReadFs(base, layer, 100 * time.Second)
 ```
 
 ### CopyOnWriteFs()
@@ -337,9 +335,9 @@ permitted. If a file is present in the base layer and the overlay, only the
 overlay will be removed/renamed.
 
 ```go
-	base := afero.NewOsFs()
-	roBase := afero.NewReadOnlyFs(base)
-	ufs := afero.NewCopyOnWriteFs(roBase, afero.NewMemMapFs())
+	base := fsintra.NewOsFs()
+	roBase := fsintra.NewReadOnlyFs(base)
+	ufs := fsintra.NewCopyOnWriteFs(roBase, fsintra.NewMemMapFs())
 
 	fh, _ = ufs.Create("/home/test/file2.txt")
 	fh.WriteString("This is a test")
@@ -364,46 +362,21 @@ implement:
 
 ## What's in the name
 
-Afero comes from the latin roots Ad-Facere.
+fsintra comes from the latin roots Ad-Facere.
 
 **"Ad"** is a prefix meaning "to".
 
 **"Facere"** is a form of the root "faciō" making "make or do".
 
-The literal meaning of afero is "to make" or "to do" which seems very fitting
+The literal meaning of fsintra is "to make" or "to do" which seems very fitting
 for a library that allows one to make files and directories and do things with them.
 
-The English word that shares the same roots as Afero is "affair". Affair shares
+The English word that shares the same roots as fsintra is "affair". Affair shares
 the same concept but as a noun it means "something that is made or done" or "an
 object of a particular type".
 
 It's also nice that unlike some of my other libraries (hugo, cobra, viper) it
 Googles very well.
-
-## Release Notes
-
-* **0.10.0** 2015.12.10
-  * Full compatibility with Windows
-  * Introduction of afero utilities
-  * Test suite rewritten to work cross platform
-  * Normalize paths for MemMapFs
-  * Adding Sync to the file interface
-  * **Breaking Change** Walk and ReadDir have changed parameter order
-  * Moving types used by MemMapFs to a subpackage
-  * General bugfixes and improvements
-* **0.9.0** 2015.11.05
-  * New Walk function similar to filepath.Walk
-  * MemMapFs.OpenFile handles O_CREATE, O_APPEND, O_TRUNC
-  * MemMapFs.Remove now really deletes the file
-  * InMemoryFile.Readdir and Readdirnames work correctly
-  * InMemoryFile functions lock it for concurrent access
-  * Test suite improvements
-* **0.8.0** 2014.10.28
-  * First public version
-  * Interfaces feel ready for people to build using
-  * Interfaces satisfy all known uses
-  * MemMapFs passes the majority of the OS test suite
-  * OsFs passes the majority of the OS test suite
 
 ## Contributing
 
@@ -424,5 +397,5 @@ Names in no particular order:
 
 ## License
 
-Afero is released under the Apache 2.0 license. See
+fsintra is released under the Apache 2.0 license. See
 [LICENSE.txt](https://github.com/spf13/afero/blob/master/LICENSE.txt)
