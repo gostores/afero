@@ -1,4 +1,4 @@
-package afero
+package fsintra
 
 import (
 	"errors"
@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type Afero struct {
+type Fsintra struct {
 	Fs
 }
 

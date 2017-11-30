@@ -1,20 +1,4 @@
-// Copyright ©2015 Steve Francia <spf@spf13.com>
-// Portions Copyright ©2015 The Hugo Authors
-// Portions Copyright 2016-present Bjørn Erik Pedersen <bjorn.erik.pedersen@gmail.com>
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
-package afero
+package fsintra
 
 import (
 	"bytes"
@@ -34,7 +18,7 @@ import (
 const FilePathSeparator = string(filepath.Separator)
 
 // Takes a reader and a path and writes the content
-func (a Afero) WriteReader(path string, r io.Reader) (err error) {
+func (a Fsintra) WriteReader(path string, r io.Reader) (err error) {
 	return WriteReader(a.Fs, path, r)
 }
 
@@ -62,7 +46,7 @@ func WriteReader(fs Fs, path string, r io.Reader) (err error) {
 }
 
 // Same as WriteReader but checks to see if file/directory already exists.
-func (a Afero) SafeWriteReader(path string, r io.Reader) (err error) {
+func (a Fsintra) SafeWriteReader(path string, r io.Reader) (err error) {
 	return SafeWriteReader(a.Fs, path, r)
 }
 
@@ -95,7 +79,7 @@ func SafeWriteReader(fs Fs, path string, r io.Reader) (err error) {
 	return
 }
 
-func (a Afero) GetTempDir(subPath string) string {
+func (a Fsintra) GetTempDir(subPath string) string {
 	return GetTempDir(a.Fs, subPath)
 }
 
@@ -169,7 +153,7 @@ func isMn(r rune) bool {
 	return unicode.Is(unicode.Mn, r) // Mn: nonspacing marks
 }
 
-func (a Afero) FileContainsBytes(filename string, subslice []byte) (bool, error) {
+func (a Fsintra) FileContainsBytes(filename string, subslice []byte) (bool, error) {
 	return FileContainsBytes(a.Fs, filename, subslice)
 }
 
@@ -184,7 +168,7 @@ func FileContainsBytes(fs Fs, filename string, subslice []byte) (bool, error) {
 	return readerContainsAny(f, subslice), nil
 }
 
-func (a Afero) FileContainsAnyBytes(filename string, subslices [][]byte) (bool, error) {
+func (a Fsintra) FileContainsAnyBytes(filename string, subslices [][]byte) (bool, error) {
 	return FileContainsAnyBytes(a.Fs, filename, subslices)
 }
 
@@ -251,7 +235,7 @@ func readerContainsAny(r io.Reader, subslices ...[]byte) bool {
 	return false
 }
 
-func (a Afero) DirExists(path string) (bool, error) {
+func (a Fsintra) DirExists(path string) (bool, error) {
 	return DirExists(a.Fs, path)
 }
 
@@ -267,7 +251,7 @@ func DirExists(fs Fs, path string) (bool, error) {
 	return false, err
 }
 
-func (a Afero) IsDir(path string) (bool, error) {
+func (a Fsintra) IsDir(path string) (bool, error) {
 	return IsDir(a.Fs, path)
 }
 
@@ -280,7 +264,7 @@ func IsDir(fs Fs, path string) (bool, error) {
 	return fi.IsDir(), nil
 }
 
-func (a Afero) IsEmpty(path string) (bool, error) {
+func (a Fsintra) IsEmpty(path string) (bool, error) {
 	return IsEmpty(a.Fs, path)
 }
 
@@ -305,7 +289,7 @@ func IsEmpty(fs Fs, path string) (bool, error) {
 	return fi.Size() == 0, nil
 }
 
-func (a Afero) Exists(path string) (bool, error) {
+func (a Fsintra) Exists(path string) (bool, error) {
 	return Exists(a.Fs, path)
 }
 

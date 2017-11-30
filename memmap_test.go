@@ -1,4 +1,4 @@
-package afero
+package fsintra
 
 import (
 	"fmt"
@@ -170,7 +170,7 @@ func TestPermSet(t *testing.T) {
 // Fails if multiple file objects use the same file.at counter in MemMapFs
 func TestMultipleOpenFiles(t *testing.T) {
 	defer removeAllTestFiles(t)
-	const fileName = "afero-demo2.txt"
+	const fileName = "fsintra-demo2.txt"
 
 	var data = make([][]byte, len(Fss))
 
@@ -237,7 +237,7 @@ func TestMultipleOpenFiles(t *testing.T) {
 // Test if file.Write() fails when opened as read only
 func TestReadOnly(t *testing.T) {
 	defer removeAllTestFiles(t)
-	const fileName = "afero-demo.txt"
+	const fileName = "fsintra-demo.txt"
 
 	for _, fs := range Fss {
 		dir := testDir(fs)
@@ -277,7 +277,7 @@ func TestReadOnly(t *testing.T) {
 
 func TestWriteCloseTime(t *testing.T) {
 	defer removeAllTestFiles(t)
-	const fileName = "afero-demo.txt"
+	const fileName = "fsintra-demo.txt"
 
 	for _, fs := range Fss {
 		dir := testDir(fs)

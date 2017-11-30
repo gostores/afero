@@ -1,6 +1,6 @@
 // +build darwin openbsd freebsd netbsd dragonfly
 
-package afero
+package fsintra
 
 import (
 	"syscall"

@@ -1,4 +1,4 @@
-package afero
+package fsintra
 
 import (
 	"bytes"
@@ -20,7 +20,7 @@ func (f byName) Swap(i, j int)      { f[i], f[j] = f[j], f[i] }
 
 // ReadDir reads the directory named by dirname and returns
 // a list of sorted directory entries.
-func (a Afero) ReadDir(dirname string) ([]os.FileInfo, error) {
+func (a Fsintra) ReadDir(dirname string) ([]os.FileInfo, error) {
 	return ReadDir(a.Fs, dirname)
 }
 
@@ -42,7 +42,7 @@ func ReadDir(fs Fs, dirname string) ([]os.FileInfo, error) {
 // A successful call returns err == nil, not err == EOF. Because ReadFile
 // reads the whole file, it does not treat an EOF from Read as an error
 // to be reported.
-func (a Afero) ReadFile(filename string) ([]byte, error) {
+func (a Fsintra) ReadFile(filename string) ([]byte, error) {
 	return ReadFile(a.Fs, filename)
 }
 
@@ -102,7 +102,7 @@ func ReadAll(r io.Reader) ([]byte, error) {
 // WriteFile writes data to a file named by filename.
 // If the file does not exist, WriteFile creates it with permissions perm;
 // otherwise WriteFile truncates it before writing.
-func (a Afero) WriteFile(filename string, data []byte, perm os.FileMode) error {
+func (a Fsintra) WriteFile(filename string, data []byte, perm os.FileMode) error {
 	return WriteFile(a.Fs, filename, data, perm)
 }
 
@@ -153,7 +153,7 @@ func nextSuffix() string {
 // will not choose the same file.  The caller can use f.Name()
 // to find the pathname of the file.  It is the caller's responsibility
 // to remove the file when no longer needed.
-func (a Afero) TempFile(dir, prefix string) (f File, err error) {
+func (a Fsintra) TempFile(dir, prefix string) (f File, err error) {
 	return TempFile(a.Fs, dir, prefix)
 }
 
@@ -186,7 +186,7 @@ func TempFile(fs Fs, dir, prefix string) (f File, err error) {
 // Multiple programs calling TempDir simultaneously
 // will not choose the same directory.  It is the caller's responsibility
 // to remove the directory when no longer needed.
-func (a Afero) TempDir(dir, prefix string) (name string, err error) {
+func (a Fsintra) TempDir(dir, prefix string) (name string, err error) {
 	return TempDir(a.Fs, dir, prefix)
 }
 func TempDir(fs Fs, dir, prefix string) (name string, err error) {

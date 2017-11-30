@@ -1,4 +1,4 @@
-package afero
+package fsintra
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gostores/afero/mem"
+	"github.com/gostores/fsintra/mem"
 )
 
 type MemMapFs struct {

@@ -1,4 +1,4 @@
-package afero
+package fsintra
 
 import (
 	"path/filepath"
@@ -19,7 +19,7 @@ import (
 // built-ins from that package.
 func Glob(fs Fs, pattern string) (matches []string, err error) {
 	if !hasMeta(pattern) {
-		// afero does not support Lstat directly.
+		// fsintra does not support Lstat directly.
 		if _, err = lstatIfOs(fs, pattern); err != nil {
 			return nil, nil
 		}

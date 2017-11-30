@@ -1,4 +1,4 @@
-package afero
+package fsintra
 
 import (
 	"bytes"
@@ -19,7 +19,7 @@ var Fss = []Fs{&MemMapFs{}, &OsFs{}}
 var testRegistry map[Fs][]string = make(map[Fs][]string)
 
 func testDir(fs Fs) string {
-	name, err := TempDir(fs, "", "afero")
+	name, err := TempDir(fs, "", "fsintra")
 	if err != nil {
 		panic(fmt.Sprint("unable to work with test dir", err))
 	}
@@ -29,7 +29,7 @@ func testDir(fs Fs) string {
 }
 
 func tmpFile(fs Fs) File {
-	x, err := TempFile(fs, "", "afero")
+	x, err := TempFile(fs, "", "fsintra")
 
 	if err != nil {
 		panic(fmt.Sprint("unable to work with temp file", err))
@@ -236,7 +236,7 @@ func TestRename(t *testing.T) {
 func TestRemove(t *testing.T) {
 	for _, fs := range Fss {
 
-		x, err := TempFile(fs, "", "afero")
+		x, err := TempFile(fs, "", "fsintra")
 		if err != nil {
 			t.Error(fmt.Sprint("unable to work with temp file", err))
 		}

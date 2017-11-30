@@ -1,4 +1,4 @@
-package afero
+package fsintra
 
 import "testing"
 
@@ -14,7 +14,7 @@ func checkSizePath(t *testing.T, path string, size int64) {
 
 func TestReadFile(t *testing.T) {
 	testFS = &MemMapFs{}
-	fsutil := &Afero{Fs: testFS}
+	fsutil := &Fsintra{Fs: testFS}
 
 	testFS.Create("this_exists.go")
 	filename := "rumpelstilzchen"
@@ -34,7 +34,7 @@ func TestReadFile(t *testing.T) {
 
 func TestWriteFile(t *testing.T) {
 	testFS = &MemMapFs{}
-	fsutil := &Afero{Fs: testFS}
+	fsutil := &Fsintra{Fs: testFS}
 	f, err := fsutil.TempFile("", "ioutil-test")
 	if err != nil {
 		t.Fatal(err)

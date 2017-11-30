@@ -1,4 +1,4 @@
-package afero
+package fsintra
 
 import (
 	"os"
@@ -80,7 +80,7 @@ func lstatIfOs(fs Fs, path string) (info os.FileInfo, err error) {
 // large directories Walk can be inefficient.
 // Walk does not follow symbolic links.
 
-func (a Afero) Walk(root string, walkFn filepath.WalkFunc) error {
+func (a Fsintra) Walk(root string, walkFn filepath.WalkFunc) error {
 	return Walk(a.Fs, root, walkFn)
 }
 

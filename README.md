@@ -1,28 +1,4 @@
-![afero logo-sm](https://cloud.githubusercontent.com/assets/173412/11490338/d50e16dc-97a5-11e5-8b12-019a300d0fcb.png)
-
 A FileSystem Abstraction System for Go
-
-[![Build Status](https://travis-ci.org/spf13/afero.svg)](https://travis-ci.org/spf13/afero) [![Build status](https://ci.appveyor.com/api/projects/status/github/spf13/afero?branch=master&svg=true)](https://ci.appveyor.com/project/spf13/afero) [![GoDoc](https://godoc.org/github.com/spf13/afero?status.svg)](https://godoc.org/github.com/spf13/afero) [![Join the chat at https://gitter.im/spf13/afero](https://badges.gitter.im/Dev%20Chat.svg)](https://gitter.im/spf13/afero?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-# Overview
-
-Afero is an filesystem framework providing a simple, uniform and universal API
-interacting with any filesystem, as an abstraction layer providing interfaces,
-types and methods. Afero has an exceptionally clean interface and simple design
-without needless constructors or initialization methods.
-
-Afero is also a library providing a base set of interoperable backend
-filesystems that make it easy to work with afero while retaining all the power
-and benefit of the os and ioutil packages.
-
-Afero provides significant improvements over using the os package alone, most
-notably the ability to create mock and testing filesystems without relying on the disk.
-
-It is suitable for use in a any situation where you would consider using the OS
-package as it provides an additional abstraction that makes it easy to use a
-memory backed file system during testing. It also adds support for the http
-filesystem for full interoperability.
-
 
 ## Afero Features
 

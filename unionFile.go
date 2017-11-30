@@ -1,4 +1,4 @@
-package afero
+package fsintra
 
 import (
 	"io"
@@ -7,7 +7,7 @@ import (
 	"syscall"
 )
 
-// The UnionFile implements the afero.File interface and will be returned
+// The UnionFile implements the fsintra.File interface and will be returned
 // when reading a directory present at least in the overlay or opening a file
 // for writing.
 //
