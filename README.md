@@ -26,11 +26,11 @@ A few different ways you could use fsintra:
 
 First use go get to install the latest version of the library.
 
-    $ go get github.com/gostores/fsintra
+    $ go get github.com/govenue/fsintra
 
 Next include fsintra in your application.
 ```go
-import "github.com/gostores/fsintra"
+import "github.com/govenue/fsintra"
 ```
 
 ## Step 2: Declare a backend

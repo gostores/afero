@@ -1,5 +1,5 @@
 version: '{build}'
-clone_folder: C:\gopath\src\github.com\gostores\fsintra
+clone_folder: C:\gopath\src\github.com\govenue\fsintra
 environment:
   GOPATH: C:\gopath
 build_script:
@@ -8,8 +8,8 @@ build_script:
 
     go env
 
-    go get -v github.com/gostores/fsintra/...
+    go get -v github.com/govenue/fsintra/...
 
-    go build github.com/gostores/fsintra
+    go build github.com/govenue/fsintra
 test_script:
-- cmd: go test -race -v github.com/gostores/fsintra/...
+- cmd: go test -race -v github.com/govenue/fsintra/...
